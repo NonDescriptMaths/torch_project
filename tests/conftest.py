@@ -1,7 +1,7 @@
 import pytest
 import torch
 import torch.nn as nn
-from src.model import LinearModel
+from torch_project.model import LinearModel
 
 @pytest.fixture
 def input_dim():

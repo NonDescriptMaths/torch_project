@@ -1,6 +1,6 @@
-from src.data_loader import get_prepared_data
-from src.model import LinearModel, train_one_step
-from src.visualiser import plot_predictions
+from torch_project.data_loader import get_prepared_data
+from torch_project.model import LinearModel, train_one_step
+from torch_project.visualiser import plot_predictions
 import torch
 
 # 1. Setup

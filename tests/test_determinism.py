@@ -1,6 +1,6 @@
 import torch
 import pytest
-from src.model import train_one_step
+from torch_project.model import train_one_step
 
 def test_gradient_requirement(untrained_model):
     """Ensure model parameters actually require gradients."""

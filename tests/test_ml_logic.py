@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from src.model import train_one_step
+from torch_project.model import train_one_step
 
 def test_model_output_shape(untrained_model, sample_batch):
     # Act
