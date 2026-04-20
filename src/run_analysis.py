@@ -6,7 +6,7 @@ import torch
 # 1. Setup
 X, y = get_prepared_data()
 model = LinearModel(input_dim=X.shape[1])
-optimizer = torch.optim.Adam(model.parameters(), lr=0.1)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 criterion = torch.nn.MSELoss()
 
 # 2. Training Loop

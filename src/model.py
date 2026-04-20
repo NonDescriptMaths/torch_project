@@ -10,6 +10,7 @@ class LinearModel(nn.Module):
         return self.linear(x)
 
 def train_one_step(model, X, y, optimizer, criterion):
+    
     optimizer.zero_grad()
     outputs = model(X)
     loss = criterion(outputs, y)
