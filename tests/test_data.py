@@ -1,5 +1,5 @@
 import torch
-from torch_project.data_loader import get_prepared_data
+from torch_project.data_cleaner import get_prepared_data
 
 def test_data_loader_properties():
     X, y = get_prepared_data()

@@ -1,25 +1,51 @@
-import torch
 import matplotlib.pyplot as plt
-import matplotlib
+import json
+import os
 
-# Use Agg backend to generate files without a GUI
-matplotlib.use('Agg') 
-
-def plot_predictions(model, X, y):
-    model.eval()
-    with torch.no_grad():
-        predictions = model(X)
+def plot_loss_curves(exp_name):
+    """Plots the training history from the metrics.json file."""
+    path = f"results/experiments/{exp_name}/metrics.json"
     
-    # Take first feature for 2D plotting
-    x_plot = X[:, 0].numpy()
-    y_true = y.numpy()
-    y_pred = predictions.numpy()
-
-    plt.figure(figsize=(10, 6))
-    plt.scatter(x_plot, y_true, label='Actual', alpha=0.5)
-    plt.scatter(x_plot, y_pred, label='Predicted', color='red')
+    with open(path, "r") as f:
+        data = json.load(f)
+    
+    history = data["history"]
+    
+    plt.figure(figsize=(10, 5))
+    plt.plot(history, label="Training Loss (MSE)")
+    plt.title(f"Convergence: {exp_name}")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend()
     
-    # Save instead of show to avoid FigureCanvasAgg error
-    plt.savefig('predictions.png')
-    plt.close()
+    output_path = f"results/plots/{exp_name}"
+    os.makedirs(output_path, exist_ok=True)
+    plt.savefig(f"results/plots/{exp_name}/convergence_plot.png")
+    print(f"📈 Plot saved to results/plots/{exp_name}/convergence_plot.png")
+
+
+def plot_rate_vs_mse():
+    """Plots the final MSE for different learning rates."""
+    rates = []
+    mses = []
+    
+    base_path = "results/experiments"
+    for exp in os.listdir(base_path):
+        with open(f"{base_path}/{exp}/metrics.json", "r") as f:
+            data = json.load(f)
+            rates.append(data["config"]["lr"])
+            mses.append(data["test_mse"])
+    
+    plt.figure(figsize=(10, 5))
+    plt.plot(rates, mses, marker='o',linestyle = '')
+    plt.xscale('log')
+    plt.title("Learning Rate vs Test MSE")
+    plt.xlabel("Learning Rate (log scale)")
+    plt.ylabel("Test MSE")
+    plt.grid(True, linestyle='--', alpha=0.6)
+    
+    output_path = "results/plots/rate_vs_mse"
+    os.makedirs(output_path, exist_ok=True)
+    plt.savefig(f"{output_path}/rate_vs_mse.png")
+    print(f"📈 Plot saved to {output_path}/rate_vs_mse.png")
